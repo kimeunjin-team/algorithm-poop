@@ -10,6 +10,7 @@ typedef struct
 {
     list data[100];
     int number;
+    int length;
 } Todo;
 
 
@@ -36,11 +37,19 @@ void MainScreen(Todo* t) {
         scanf("%s", &t->data[t->number].todo);
         printf("중요도를 입력하세요 : ");
         scanf("%d", &t->data[t->number].importance);
-        printf("==============================\n");
-        printf("%d\n", *t->data[t->number].importance);
-        printf("%s\n", t->data[t->number].todo);
+        printf("===============\n");
+        t->number++;
+        t->length++;
+        MainScreen(t);
         break;
-    
+    case 2:
+        printf("-------- To Do List Log --------\n\n");
+        for(int i=0;i<t->length;i++) {
+            printf("%d: %s         중요도: %d\n", i+1, t->data[i].todo, *t->data[i].importance);
+            printf("--------------------------------\n");
+        }
+        MainScreen(t);
+        break;
     default:
         break;
     }
@@ -50,6 +59,7 @@ int main(void)
 {
     Todo t;
     t.number = 0;
+    t.length = 0;
     MainScreen(&t); // Main Menu Screen
     return 0;
 }
