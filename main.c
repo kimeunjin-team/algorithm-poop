@@ -13,7 +13,7 @@ typedef struct
 typedef struct
 {
     char todo[101];
-    int importance[101];
+    int importance;
     int check;
 } list;
 
@@ -28,20 +28,18 @@ typedef struct
 
 void sort(Queue *q, Todo *t)
 {
-    int i, j, k, temp, key;
-    for(i=0; i<-1; i++)
+    int i, j, k, temp1,temp2, key,d;
+    char todo;
+    for(i=0; i<t->length; i++)
     {
-        k=i;
-        for(j=i+1; j<t->length; j++)
+        key=t->data[i].importance;
+        todo=t->data[i].todo; 
+        for(j=i-1; j>=0 && t->data[j].importance<key; j--)
         {
-            if(t->data[j].importance<t->data[k].importance)
-            {
-                k=j;
-            }
+            t->data[j+1]=t->data[j];
         }
-        temp=q->data[i];
-        q->data[i]=q->data[k];
-        q->data[k]=temp;
+        t->data[j+1].importance=key;
+        *t->data[j+1].todo=todo;
     }
 }
 
@@ -122,7 +120,7 @@ void MainScreen(Todo *t, Queue *q)
         {
             if (t->data[i].check == 1)
             {
-                printf("[⎷]  %s              중요도: %d\n", t->data[i].todo, *t->data[i].importance);
+                printf("[⎷]  %s              중요도: %d\n", t->data[i].todo, t->data[i].importance);
                 printf("--------------------------------\n");
             }
             else if (i <= q->front || i > q->rear)
@@ -131,7 +129,7 @@ void MainScreen(Todo *t, Queue *q)
             }
             else
             {
-                printf("[ ]  %s              중요도: %d\n", t->data[i].todo, *t->data[i].importance);
+                printf("[ ]  %s              중요도: %d\n", t->data[i].todo, t->data[i].importance);
                 printf("--------------------------------\n");
             }
         }
