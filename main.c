@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include<Windows.h>
 #define MAX_Q_SIZE 10
 
 typedef int element;
@@ -26,50 +27,50 @@ typedef struct
 
 // 정렬
 
-void sort(Queue *q, Todo *t)
+void sort(Queue* q, Todo* t)
 {
-    int i, j, k, temp1,temp2, key,d;
+    int i, j, k, temp1, temp2, key, d;
     char todo[101];
-    for(i=1; i<t->length; i++)
+    for (i = 1; i < t->length; i++)
     {
-        key=t->data[i].importance;
-        *todo=*t->data[i].todo;
-        for(j=i-1; j>=0 && t->data[j].importance<key; j--)
+        key = t->data[i].importance;
+        *todo = *t->data[i].todo;
+        for (j = i - 1; j >= 0 && t->data[j].importance < key; j--)
         {
-            t->data[j+1]=t->data[j];
+            t->data[j + 1] = t->data[j];
         }
-        t->data[j+1].importance=key;
-        *t->data[j+1].todo=*todo;
+        t->data[j + 1].importance = key;
+        *t->data[j + 1].todo = *todo;
     }
 }
 
 // 큐
 
-void error(char *message)
+void error(char* message)
 {
     printf("%s\n", message);
 }
-void initQueue(Queue *q)
+void initQueue(Queue* q)
 {
     q->front = -1;
     q->rear = -1;
 }
-int isFull(Queue *q)
+int isFull(Queue* q)
 {
     return q->rear == MAX_Q_SIZE - 1; // 0 또는 1을 출력하는거기에 조건을 바로 써줌
 }
-int isEmpty(Queue *q)
+int isEmpty(Queue* q)
 {
     return q->front == q->rear; // 0 또는 1을 출력하는거기에 조건을 바로 써줌
 }
-void enQueue(Queue *q, element item)
+void enQueue(Queue* q, element item)
 {
     if (isFull(q))
         error("Queue is full"); // Full 이 꽉차있으면 에러를 발생
     q->rear++;
     q->data[q->rear] = item; // 삽입
 }
-element deQueue(Queue *q, Todo *t)
+element deQueue(Queue* q, Todo* t)
 {
     if (isEmpty(q))
         error("Queue is empty");
@@ -79,7 +80,7 @@ element deQueue(Queue *q, Todo *t)
 
 // Main Screen
 
-void MainScreen(Todo *t, Queue *q)
+void MainScreen(Todo* t, Queue* q)
 {
     int option;
     printf("==============================\n");
@@ -97,6 +98,7 @@ void MainScreen(Todo *t, Queue *q)
     printf("==============================\n");
     printf("입력하기 : ");
     scanf("%d", &option);
+    system("cls");
     printf("\n");
     switch (option)
     {
@@ -112,6 +114,7 @@ void MainScreen(Todo *t, Queue *q)
 
         t->number++;
         t->length++;
+        system("cls");
         MainScreen(t, q);
         break;
     case 2:
@@ -120,7 +123,7 @@ void MainScreen(Todo *t, Queue *q)
         {
             if (t->data[i].check == 1)
             {
-                printf("[⎷]  %s              중요도: %d\n", t->data[i].todo, t->data[i].importance);
+                printf("[●]  %s              중요도: %d\n", t->data[i].todo, t->data[i].importance);
                 printf("--------------------------------\n");
             }
             else if (i <= q->front || i > q->rear)
@@ -133,6 +136,8 @@ void MainScreen(Todo *t, Queue *q)
                 printf("--------------------------------\n");
             }
         }
+        Sleep(3000);
+        system("cls");
         MainScreen(t, q);
         break;
     case 3:
