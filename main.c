@@ -29,17 +29,17 @@ typedef struct
 void sort(Queue *q, Todo *t)
 {
     int i, j, k, temp1,temp2, key,d;
-    char todo;
-    for(i=0; i<t->length; i++)
+    char todo[101];
+    for(i=1; i<t->length; i++)
     {
         key=t->data[i].importance;
-        todo=t->data[i].todo; 
+        *todo=*t->data[i].todo;
         for(j=i-1; j>=0 && t->data[j].importance<key; j--)
         {
             t->data[j+1]=t->data[j];
         }
         t->data[j+1].importance=key;
-        *t->data[j+1].todo=todo;
+        *t->data[j+1].todo=*todo;
     }
 }
 
